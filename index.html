@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/home.css" />
+    <link rel="stylesheet" href="./css/trips.css" />
+  </head>
+  <body>
+    <div class="header_container">
+      <header class="content">
+        <div class="logo">
+          <a href="index.html" class="no_link">TripFinder</a>
+        </div>
+      </header>
+    </div>
+    <div class="content">
+      <main>
+        <div id="filters" class="box">
+          <div class="filters_title">Filters</div>
+          <div class="filters_container">
+            <div class="filter">
+              <div class="filter_title">
+                <iconify-icon icon="mdi:calendar-arrow-right"></iconify-icon>
+                <label for="start_date">Departure date</label>
+              </div>
+              <input
+                type="date"
+                name="start_date"
+                id="start_date"
+                class="box"
+              />
+            </div>
+            <div class="filter">
+              <div class="filter_title">
+                <iconify-icon icon="mdi:calendar-arrow-left"></iconify-icon>
+                <label for="end_date">Return date</label>
+              </div>
+              <input
+                type="date"
+                name="end_date"
+                id="end_date"
+                class="box"
+                placeholder=""
+              />
+            </div>
+            <div class="filter">
+              <div class="filter_title">
+                <iconify-icon icon="bx:trip"></iconify-icon>
+                <label for="destination">Destination</label>
+              </div>
+              <select name="destination" id="destination" class="box">
+                <option selected value>All</option>
+              </select>
+            </div>
+            <div class="filter">
+              <div class="filter_title">
+                <iconify-icon icon="bx:map"></iconify-icon>
+                <label for="departure">Departure</label>
+              </div>
+              <select name="departure" id="departure" class="box">
+                <option selected value>All</option>
+              </select>
+            </div>
+            <div class="filter">
+              <div class="filter_title">
+                <iconify-icon icon="mdi:company"></iconify-icon>
+                <label for="agency">Agency</label>
+              </div>
+              <select name="agency" id="agency" class="box">
+                <option value="1">Agency 1</option>
+                <option value="2">Agency 2</option>
+                <option value="3">Agency 3</option>
+              </select>
+            </div>
+          </div>
+          <button id="apply_button" class="colored wide">Apply</button>
+        </div>
+
+        <div id="trips">
+          <h4>2 trips were found</h4>
+          <ul id="trips_list">
+            <li class="trip box">
+              <div class="trip_header">
+                <div class="trip_title">Destination name</div>
+                <div class="availability">
+                  <iconify-icon icon="bi:people-fill"></iconify-icon>3 available
+                  spots
+                </div>
+              </div>
+              <ul class="trip_body">
+                <li>
+                  <iconify-icon icon="mdi:calendar-month-outline"></iconify-icon
+                  >20/01/2024 - 23/01/2024
+                </li>
+                <li>
+                  <iconify-icon icon="bx:map"></iconify-icon>Departure point
+                </li>
+                <li>
+                  <iconify-icon icon="mdi:company"></iconify-icon>Agency name
+                </li>
+              </ul>
+              <div class="trip_footer">
+                <div class="more_button">more information >></div>
+                <button class="colored">Reservation</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </main>
+    </div>
+
+    <div id="overlay_window">
+      <div id="overlay_content" class="content box">
+        <h2>Trip destination</h2>
+      </div>
+    </div>
+
+    <script type="module" src="./js/home.js"></script>
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>

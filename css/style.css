@@ -1,0 +1,232 @@
+@import url("https://fonts.googleapis.com/css2?family=Kameron&family=Manrope:wght@400;700&display=swap");
+
+* {
+  outline: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-color: white;
+  --bg-secondary: hsl(0, 0%, 92%);
+  --typo-primary-color: black;
+  --typo-accent-color: white;
+  --accent-color: black;
+  --secondary-accent-color: #323232;
+  --border-radius: 8px;
+  --border-radius-inner: 7px;
+}
+
+html {
+  font-size: 18px;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  font-family: "Manrope", sans-serif;
+}
+
+a.no_link {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+button,
+label,
+input[type="submit"] {
+  user-select: none;
+}
+
+.content {
+  width: 100%;
+  max-width: 50rem;
+  padding: 0 10px;
+}
+
+.box {
+  border-radius: var(--border-radius);
+  border: 1px solid var(--accent-color);
+}
+
+.logo {
+  font-family: "Kameron", serif;
+  font-size: 1.75rem;
+  cursor: pointer;
+}
+
+button,
+input[type="submit"] {
+  padding: 5px 15px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-family: "Manrope", sans-serif;
+  font-size: 1rem;
+  background-color: var(--bg-color);
+}
+
+button.wide,
+input[type="submit"].wide {
+  padding: 5px 30px;
+}
+
+button.colored,
+input[type="submit"].colored {
+  background-color: var(--accent-color);
+  color: var(--typo-accent-color);
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background-color: var(--secondary-accent-color);
+  color: var(--typo-accent-color);
+}
+
+#authentication_container {
+  padding: 15px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Authenticate buttons */
+#authenticate_buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+#authenticate_buttons > *:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-width: 0.1px;
+}
+
+#authenticate_buttons > *:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left-width: 0.1px;
+}
+
+/* Header */
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  background-color: var(--accent-color);
+  color: var(--typo-accent-color);
+  padding: 10px 0;
+}
+
+input,
+select {
+  font-size: 1rem;
+  font-family: "Manrope", sans-serif;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+  background-position-y: 50%;
+}
+
+select option:hover {
+  background-color: var(--accent-color);
+  color: var(--typo-accent-color);
+}
+
+iconify-icon {
+  font-size: 1.375rem;
+}
+
+#user {
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+}
+
+#user iconify-icon {
+  margin-left: 5px;
+  font-size: 30px;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: var(--bg-color);
+  min-width: 160px;
+  z-index: 1;
+  border: 1px solid black;
+  border-radius: var(--border-radius);
+}
+
+.dropdown-content a {
+  text-decoration: none;
+  display: block;
+  border-radius: var(--border-radius-inner);
+  text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: var(--accent-color);
+  color: var(--typo-accent-color);
+}
+
+#user_button {
+  display: none;
+}
+
+body[data-connected="true"] #user_button {
+  display: block;
+}
+
+body[data-connected="true"] #authenticate_buttons {
+  display: none;
+}
+
+/* Overlay window */
+#overlay_window {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(0 0 0 / 80%);
+}
+
+#overlay_content {
+  background-color: var(--bg-color);
+  padding: 20px;
+}

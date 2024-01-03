@@ -1,0 +1,60 @@
+#trips {
+    flex: 1;
+}
+
+#trips_list,
+.trip_body {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#trips_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trip {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 15px;
+}
+
+.trip_header,
+.trip_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trip .availability,
+.trip_body li {
+    display: flex;
+    align-items: center;
+}
+
+.trip .availability iconify-icon,
+.trip_body li iconify-icon {
+    margin-right: 5px;
+}
+
+.trip_title {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.trip_body {
+    font-size: .875rem;
+}
+
+.trip_body li iconify-icon {
+    font-size: 1rem;
+}
+
+.more_button {
+    font-size: .875rem;
+    font-weight: bold;
+    cursor: pointer;
+}

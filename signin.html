@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in</title>
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/authentication.css">
+  </head>
+  <body>
+    <div id="authentication_body">
+      
+      <div class="logo"><a href="index.html" class="no_link">TripFinder</a></div>
+
+      <div class="box" id="authentication_container">
+        <div id="authenticate_buttons">
+          <button class="box colored"><a href="#" class="no_link">Sign in</a></button>
+          <button class="box"><a href="signup.html" class="no_link">Sign up</a></button>
+        </div>
+
+        <form action="#" method="POST">
+
+          <div class="input_container">
+            <input type="text" name="username" class="box" required />
+            <span class="floating-label">Username</span>
+          </div>
+
+          <div class="input_container">
+            <input type="password" name="password" class="box" required>
+            <span class="floating-label">Password</span>
+          </div>
+          
+          <input type="submit" value="Submit" class="colored wide" />
+        </form>
+
+      </div>
+    </div>
+    <script type="module" src="./js/signing.js"></script>
+  </body>
+</html>

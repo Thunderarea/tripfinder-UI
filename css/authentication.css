@@ -1,0 +1,51 @@
+:root {
+    --input-left-padding: 15px;
+    --placeholder-side-padding: 5px;
+}
+
+#authentication_body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-size: 1rem;
+  height: 100%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.input_container {
+    position: relative;
+}
+
+input:focus ~ .floating-label,
+input:not(:focus):valid ~ .floating-label{
+  top: 0;
+  font-size: .6875rem;
+  opacity: 1;
+  background-color: var(--bg-color);
+  color: var(--typo-primary-color);
+}
+
+input {
+  font-size: 1rem;
+  padding: 10px var(--input-left-padding);
+}
+
+.floating-label {
+  position: absolute;
+  pointer-events: none;
+  left: calc(var(--input-left-padding) - var(--placeholder-side-padding));
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.2s ease all;
+  padding: 0 var(--placeholder-side-padding);
+  color: grey;
+}
