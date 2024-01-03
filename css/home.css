@@ -8,19 +8,15 @@ main {
 .filters_title {
   font-weight: bold;
   font-size: 1.125rem;
-  padding: 5px 0;
+  width: 100%;
+  border-bottom: 1px solid var(--accent-color);
+  padding: 10px 0 10px 10px;
 }
 
 #filters {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-#filters .section_title {
-  width: 100%;
-  border-bottom: 1px solid var(--accent-color);
-  padding-left: 10px;
 }
 
 .filters_container {
@@ -54,4 +50,8 @@ main {
 
 #apply_button {
   margin: 15px 0;
+}
+
+#page_subtitle {
+  margin-top: 0;
 }
