@@ -58,3 +58,31 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.trip_button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Button content */
+button.reservation::before {
+    content: url('https://api.iconify.design/mdi/book-outline.svg?color=white');
+    line-height: 0;
+}
+
+button.reservation::after {
+    content: "Reservation";
+}
+
+/* button.reserved::after {
+    content: "Reserved";
+}
+
+button.cancel::before {
+    content: "Cancel";
+}
+
+button.cancel::after {
+    content: url('https://api.iconify.design/mdi/book-outline.svg');
+} */

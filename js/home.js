@@ -1,6 +1,14 @@
 import { getRequest } from "./api.js";
+import { createTripsList } from "./trips.js";
 
-(async function initializeFilters() {
+(async function init() {
+  
+  initializeFilters();
+  document.querySelector("#apply_button").addEventListener("click", applyListener);
+
+})();
+
+async function initializeFilters() {
   let destinations = await getRequest("trips/destinations", {});
   console.log(destinations);
   let destinationsEl = document.querySelector("#destination");
@@ -13,7 +21,15 @@ import { getRequest } from "./api.js";
   departurePoints.forEach(dpt => {
     departuresEl.appendChild(getOption(dpt));
   });
-})();
+}
+
+async function applyListener() {
+  let trips = await getRequest("trips/", {});
+  console.log(trips);
+  createTripsList(document.querySelector("#trips_list"), trips, localStorage.getItem("connected") === "true");
+}
+
+applyListener();
 
 function getOption(name) {
   let html = `<option value="${name}">${name}</option>`;

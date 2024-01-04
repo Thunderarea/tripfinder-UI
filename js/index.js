@@ -3,7 +3,7 @@
   let connected = localStorage.getItem("connected") === "true";
   document.body.dataset.connected = connected;
   if (connected) {
-    let username = "username";
+    let username = localStorage.getItem("username");
     let role = localStorage.getItem("role");
     document.body.dataset.role = role;
     html = `
@@ -32,8 +32,7 @@
     </div>
     `;
   }
-  let el = new DOMParser().parseFromString(html, "text/html").body
-    .firstElementChild;
+  let el = new DOMParser().parseFromString(html, "text/html").body.firstElementChild;
   document.querySelector("header").appendChild(el);
 
   if (connected) {
