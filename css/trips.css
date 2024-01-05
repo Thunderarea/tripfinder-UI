@@ -75,14 +75,35 @@ button.reservation::after {
     content: "Reservation";
 }
 
-/* button.reserved::after {
+button.reserved {
+    background-color: green;
+}
+
+button.reserved::before {
+    content: url('https://api.iconify.design/octicon/issue-closed-16.svg?color=white');
+    line-height: 0;
+}
+
+button.reserved::after {
     content: "Reserved";
 }
 
+button.reserved:hover,
+button.cancel {
+    background-color: red;
+}
+
+button.reserved:hover::before,
 button.cancel::before {
+    content: url('https://api.iconify.design/material-symbols/cancel-outline.svg?color=white');
+    line-height: 0;
+}
+
+button.reserved:hover::after,
+button.cancel::after {
     content: "Cancel";
 }
 
-button.cancel::after {
-    content: url('https://api.iconify.design/mdi/book-outline.svg');
-} */
+button.cancel:hover {
+    background-color: rgb(195, 0, 0);
+}

@@ -1,22 +1,33 @@
-function createTripsList(container, trips, isConnected) {
-    trips.forEach(trip => {
-        container.appendChild(createTripEl(trip, isConnected, "reservation"));
+function createTripsList(container, list, isConnected) {
+    list.forEach(item => {
+        container.appendChild(createElelement(item, "reservation", isConnected));
     });
+    // reservation. reserved
 }
 
-function createReservationsList() {
-
+function createReservationsList(container, list, isConnected) {
+    list.forEach(item => {
+        container.appendChild(createElelement(item, "reserved", isConnected));
+    });
+    // reserved
 }
 
-function createAgencyTripsList() {
-
+function createAgencyTripsList(container, list, isConnected) {
+    list.forEach(item => {
+        container.appendChild(createElelement(item, "cancel", isConnected));
+    });
+    // cancel
 }
 
-function createTripEl(trip, isConnected, buttonClass) {
+function createElelement(item, buttonClass, isConnected) {
+    // date.toLocaleString(); // 5/12/2020, 6:50:21 PM
+    // date.toLocaleDateString(); // 5/12/2020
+    // date.toLocaleTimeString(); // 6:50:21 PM
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
     let html = `
     <li class="trip box">
         <div class="trip_header">
-            <div class="trip_title">${trip.destination}</div>
+            <div class="trip_title">${item.destination}</div>
             <div class="availability">
                 <iconify-icon icon="bi:people-fill"></iconify-icon>${"3"} available spots
             </div>
@@ -24,11 +35,11 @@ function createTripEl(trip, isConnected, buttonClass) {
         <ul class="trip_body">
             <li>
                 <iconify-icon icon="mdi:calendar-month-outline"></iconify-icon>
-                ${trip.startDate} - ${trip.endDate}
+                ${new Date(item.startDate).toLocaleString()} - ${new Date(item.endDate).toLocaleString()}
             </li>
             <li>
                 <iconify-icon icon="bx:map"></iconify-icon>
-                ${trip.departurePoint}
+                ${item.departurePoint}
             </li>
             <li>
                 <iconify-icon icon="mdi:company"></iconify-icon>

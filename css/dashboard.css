@@ -1,0 +1,28 @@
+#new_trip_window  h2 {
+    margin: 0 0 20px;
+}
+
+#new_trip_window form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#new_trip_window .input_container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#new_trip_window label {
+    font-weight: bold;
+}
+
+#new_trip_window input {
+    padding: 5px 10px;
+}
+
+#new_trip_window .row {
+    display: flex;
+    gap: 20px;
+}
