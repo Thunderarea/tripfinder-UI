@@ -222,7 +222,7 @@ body[data-connected="true"] #authenticate_buttons {
   justify-content: center;
   align-items: center;
   background-color: rgb(0 0 0 / 80%);
-  visibility: visible;
+  visibility: hidden;
 }
 
 .overlay_content {
