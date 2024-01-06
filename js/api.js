@@ -1,5 +1,3 @@
-import { showMessage } from "./message.js";
-
 async function postRequest(endpoint, data) {
   let result = null;
   try {
@@ -12,8 +10,11 @@ async function postRequest(endpoint, data) {
     });
 
     result = await response.json();
+    return {
+      ok: response.ok,
+      data: result
+    };
   } catch (error) {
-    showMessage(error, "error");
     console.error("Error:", error);
   }
   return result;
@@ -31,8 +32,11 @@ async function getRequest(endpoint, params) {
     });
 
     result = await response.json();
+    return {
+      ok: response.ok,
+      data: result
+    };
   } catch (error) {
-    showMessage(error, "error");
     console.error("Error:", error);
   }
   return result;

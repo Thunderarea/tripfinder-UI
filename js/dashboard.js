@@ -53,9 +53,12 @@ async function submitNewTrip(e) {
                 maxParticipants: maxParticipants,
             };
             let response = await postRequest("trips/", body);
-            console.log(response);
-            if (response) e.target.reset();
-            document.querySelector("#new_trip_window").style.visibility = "hidden";
+            if (response && response.ok) {
+                console.log(response);
+                e.target.reset();
+                document.querySelector("#new_trip_window").style.visibility = "hidden";
+                showMessage("Successful creation of trip", "success");
+            }
         }
     } catch (error) {
         showMessage("An error occured while creating the new trip", "error");
@@ -68,7 +71,6 @@ let quill = new Quill('#quill_container', {
             [{ 'header': [1, 2, 3, false] }],
             ['bold', 'italic', 'underline'],
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'align': [] }],
         ]
     },
     placeholder: 'Schedule of the trip...',

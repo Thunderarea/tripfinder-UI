@@ -10,26 +10,30 @@ import { formatTitleMessage } from "./util.js";
 })();
 
 async function initializeFilters() {
-  let destinations = await getRequest("trips/destinations", {});
-  console.log(destinations);
-  let destinationsEl = document.querySelector("#destination");
-  destinations.forEach(dst => {
-    destinationsEl.appendChild(getOption(dst));
-  });
-  let departurePoints = await getRequest("trips/departure-points", {});
-  console.log(departurePoints);
-  let departuresEl = document.querySelector("#departure");
-  departurePoints.forEach(dpt => {
-    departuresEl.appendChild(getOption(dpt));
-  });
+  let response = await getRequest("trips/destinations", {});
+  if (response && response.ok) {
+    let destinationsEl = document.querySelector("#destination");
+    response.data.forEach(dst => {
+      destinationsEl.appendChild(getOption(dst));
+    });
+  }
+  response = await getRequest("trips/departure-points", {});
+  if (response && response.ok) {
+    let departuresEl = document.querySelector("#departure");
+    response.data.forEach(dpt => {
+      departuresEl.appendChild(getOption(dpt));
+    });
+  }
 }
 
 async function applyListener() {
-  let trips = await getRequest("trips/", {});
-  console.log(trips);
-  let title = formatTitleMessage("trip", trips.length);
-  document.querySelector("#page_subtitle").textContent = title;
-  createTripsList(document.querySelector("#trips_list"), trips);  
+  let response = await getRequest("trips/", {});
+  console.log(response);
+  if (response && response.ok) {
+    let title = formatTitleMessage("trip", response.data.length);
+    document.querySelector("#page_subtitle").textContent = title;
+    createTripsList(document.querySelector("#trips_list"), response.data);
+  }
 }
 
 applyListener();

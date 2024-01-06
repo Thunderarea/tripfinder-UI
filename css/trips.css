@@ -30,7 +30,7 @@
 }
 
 .trip .availability,
-.trip_body li {
+.trip .trip_body li {
   display: flex;
   align-items: center;
 }
