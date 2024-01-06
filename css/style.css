@@ -37,8 +37,7 @@ a.no_link {
 }
 
 button,
-label,
-input[type="submit"] {
+label {
   user-select: none;
 }
 
@@ -59,8 +58,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-button,
-input[type="submit"] {
+button {
   padding: 5px 15px;
   border: none;
   border-radius: var(--border-radius);
@@ -70,19 +68,16 @@ input[type="submit"] {
   background-color: var(--bg-color);
 }
 
-button.wide,
-input[type="submit"].wide {
+button.wide {
   padding: 5px 30px;
 }
 
-button.colored,
-input[type="submit"].colored {
+button.colored {
   background-color: var(--accent-color);
   color: var(--typo-accent-color);
 }
 
-button:hover,
-input[type="submit"]:hover {
+button:hover {
   background-color: var(--secondary-accent-color);
   color: var(--typo-accent-color);
 }
@@ -256,6 +251,7 @@ body[data-connected="true"] #authenticate_buttons {
   border-radius: var(--border-radius);
   background-color: var(--accent-color);
   color: var(--typo-accent-color);
+  transition: opacity 1s;
 }
 
 .error_message {

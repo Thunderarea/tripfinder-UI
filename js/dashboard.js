@@ -1,6 +1,6 @@
-// if (localStorage.getItem("connected") !== "true" || localStorage.getItem("role") !== "agency") window.location.href = "./index.html";
-
 import { showMessage } from "./message.js";
+
+if (localStorage.getItem("connected") !== "true" || localStorage.getItem("role") !== "agency") window.location.href = "./index.html";
 
 let quill = new Quill('#quill_container', {
     modules: {
