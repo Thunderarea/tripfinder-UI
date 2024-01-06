@@ -26,7 +26,7 @@ async function initializeFilters() {
 async function applyListener() {
   let trips = await getRequest("trips/", {});
   console.log(trips);
-  createTripsList(document.querySelector("#trips_list"), trips, localStorage.getItem("connected") === "true");
+  createTripsList(document.querySelector("#trips_list"), trips, localStorage.getItem("connected") === "true", localStorage.getItem("role"));
 }
 
 applyListener();

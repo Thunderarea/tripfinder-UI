@@ -1,6 +1,8 @@
-function createTripsList(container, list, isConnected) {
+function createTripsList(container, list, isConnected, role = null) {
+    let hasButton = isConnected;
     list.forEach(item => {
-        container.appendChild(createElelement(item, "reservation", isConnected));
+        if (isConnected && role && role === "agency") hasButton = false;
+        container.appendChild(createElelement(item, "reservation", hasButton));
     });
     // reservation. reserved
 }
@@ -19,7 +21,7 @@ function createAgencyTripsList(container, list, isConnected) {
     // cancel
 }
 
-function createElelement(item, buttonClass, isConnected) {
+function createElelement(item, buttonClass, hasButton) {
     // date.toLocaleString(); // 5/12/2020, 6:50:21 PM
     // date.toLocaleDateString(); // 5/12/2020
     // date.toLocaleTimeString(); // 6:50:21 PM
@@ -48,7 +50,7 @@ function createElelement(item, buttonClass, isConnected) {
         </ul>
         <div class="trip_footer">
             <div class="more_button">more information >></div>
-            ${ isConnected ? `<button class="colored trip_button ${buttonClass}"></button>` : ""}
+            ${ hasButton ? `<button class="colored trip_button ${buttonClass}"></button>` : ""}
         </div>
     </li>`;
     return new DOMParser().parseFromString(html, "text/html").body.firstElementChild;
