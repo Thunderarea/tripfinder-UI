@@ -1,5 +1,7 @@
+import { showMessage } from "./message.js";
+
 async function postRequest(endpoint, data) {
-  let result = [];
+  let result = null;
   try {
     const response = await fetch(`http://localhost:8080/api/${endpoint}`, {
       method: "POST",
@@ -11,6 +13,7 @@ async function postRequest(endpoint, data) {
 
     result = await response.json();
   } catch (error) {
+    showMessage(error, "error");
     console.error("Error:", error);
   }
   return result;
@@ -18,7 +21,7 @@ async function postRequest(endpoint, data) {
 
 
 async function getRequest(endpoint, params) {
-  let result = [];
+  let result = null;
   try {
     const response = await fetch(`http://localhost:8080/api/${endpoint}?${new URLSearchParams(params).toString()}`, {
       method: "GET",
@@ -29,6 +32,7 @@ async function getRequest(endpoint, params) {
 
     result = await response.json();
   } catch (error) {
+    showMessage(error, "error");
     console.error("Error:", error);
   }
   return result;

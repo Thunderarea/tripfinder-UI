@@ -1,3 +1,7 @@
+#new_trip_window {
+    visibility: hidden;
+}
+
 #new_trip_window  h2 {
     margin: 0 0 20px;
 }

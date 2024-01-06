@@ -45,13 +45,3 @@
   }
 })();
 
-document.addEventListener("click", handleClicks);
-
-function handleClicks(e) {
-  if (e.target.classList.contains("overlay_window")) {
-    e.target.style.visibility = "hidden";
-  } else if (e.target.classList.contains("close_overlay_button")) {
-    e.target.parentNode.style.visibility = "hidden"; 
-  }
-} 
-

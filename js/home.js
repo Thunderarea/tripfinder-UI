@@ -3,7 +3,7 @@ import { createTripsList } from "./trips.js";
 import { formatTitleMessage } from "./util.js";
 
 (async function init() {
-  
+
   initializeFilters();
   document.querySelector("#apply_button").addEventListener("click", applyListener);
 
@@ -29,7 +29,7 @@ async function applyListener() {
   console.log(trips);
   let title = formatTitleMessage("trip", trips.length);
   document.querySelector("#page_subtitle").textContent = title;
-  createTripsList(document.querySelector("#trips_list"), trips, localStorage.getItem("connected") === "true", localStorage.getItem("role"));
+  createTripsList(document.querySelector("#trips_list"), trips);  
 }
 
 applyListener();

@@ -1,4 +1,5 @@
 import { showMessage } from "./message.js";
+import { postRequest } from "./api.js";
 
 if (localStorage.getItem("connected") !== "true" || localStorage.getItem("role") !== "agency") window.location.href = "./index.html";
 
@@ -6,10 +7,18 @@ document.querySelector("#new_trip_button").addEventListener("click", newTripButt
 document.querySelector("form#new_trip").addEventListener("submit", submitNewTrip);
 
 function newTripButtonListener() {
-    document.querySelector("#new_trip_window").style.visibility = "visible";
+    let newTripWindow = document.querySelector("#new_trip_window");
+    if (newTripWindow) {
+        newTripWindow.style.visibility = "visible";
+        newTripWindow.addEventListener("click", (e) => {
+            if (e.target.classList.contains("overlay_window") || e.target.classList.contains("close_overlay_button")) {
+                newTripWindow.style.visibility = "hidden";
+            }
+        });
+    }   
 }
 
-function submitNewTrip(e) {
+async function submitNewTrip(e) {
     e.preventDefault();
     try {
         let formData = new FormData(e.target);
@@ -21,8 +30,20 @@ function submitNewTrip(e) {
         let destination = formData.get("destination");
         let tripSchedule = quill.root.innerHTML;
 
-        if (startDate > endDate) showMessage("Start date should be before end date", "error");
-        else {
+        let errorMessages = [];
+        if (startDate >= endDate) {
+            errorMessages.push("End date should be after start date");
+        }
+        if (new Date().getTime() > startDate) {
+            errorMessages.push("Start date cannot be before today");
+        }
+        if (quill.getText().trim() === "") {
+            errorMessages.push("You should add content to the trip schedule");
+        }
+
+        if (errorMessages.length > 0) {
+            errorMessages.forEach(message => showMessage(message, "error"));
+        } else {
             let body = {
                 startDate: startDate,
                 endDate: endDate,
@@ -30,11 +51,12 @@ function submitNewTrip(e) {
                 destination: destination,
                 tripSchedule: tripSchedule,
                 maxParticipants: maxParticipants,
-            }
-
-            // send it
+            };
+            let response = await postRequest("trips/", body);
+            console.log(response);
+            if (response) e.target.reset();
+            document.querySelector("#new_trip_window").style.visibility = "hidden";
         }
-
     } catch (error) {
         showMessage("An error occured while creating the new trip", "error");
     }
