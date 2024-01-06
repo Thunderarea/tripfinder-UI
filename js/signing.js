@@ -1,9 +1,15 @@
+import { showMessage } from "./message.js";
+
 if (localStorage.getItem("connected") === "true") window.location.href = "./index.html";
 
-document.querySelector("input[type='submit']").addEventListener("click", (e) => {
+document.querySelector("form#signin").addEventListener("submit", login);
+
+function login(e) {
     e.preventDefault();
-    let username = document.querySelector('input[name="username"]').value;
-    let password = document.querySelector('input[name="password"]').value;
+    let formData = new FormData(e.target);
+
+    let username = formData.get("username");
+    let password = formData.get("password");
     let success = false;
     if (username === "customer" && password === "test") {
         localStorage.setItem("role", "customer");
@@ -17,5 +23,8 @@ document.querySelector("input[type='submit']").addEventListener("click", (e) => 
         localStorage.setItem("connected", true);
         localStorage.setItem("username", username);
         window.location.href = "./index.html";
+    } else {
+        document.querySelector("form#signin").reset();
+        showMessage("Wrong credentials", "error");
     }
-});
+}
