@@ -1,5 +1,6 @@
 import { getRequest } from "./api.js";
 import { createTripsList } from "./trips.js";
+import { formatTitleMessage } from "./util.js";
 
 (async function init() {
   
@@ -26,6 +27,8 @@ async function initializeFilters() {
 async function applyListener() {
   let trips = await getRequest("trips/", {});
   console.log(trips);
+  let title = formatTitleMessage("trip", trips.length);
+  document.querySelector("#page_subtitle").textContent = title;
   createTripsList(document.querySelector("#trips_list"), trips, localStorage.getItem("connected") === "true", localStorage.getItem("role"));
 }
 
