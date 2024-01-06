@@ -35,6 +35,6 @@ async function applyListener() {
 applyListener();
 
 function getOption(name) {
-  let html = `<option value="${name}">${name}</option>`;
+  let html = `<option value="${name}" title="${name}">${name.substring(0, 24)}</option>`;
   return new DOMParser().parseFromString(html, "text/html").body.firstElementChild;
 }

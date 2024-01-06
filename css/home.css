@@ -1,6 +1,7 @@
 #body_container {
   display: flex;
   justify-content: flex-start;
+  align-items: flex-start;
   gap: 25px;
   padding: 10px 0;
 }
@@ -40,7 +41,7 @@
 
 .filters_container input,
 .filters_container select {
-  min-width: 230px;
+  width: 230px;
   padding: 3px 5px;
 }
 
