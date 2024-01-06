@@ -26,3 +26,12 @@
     display: flex;
     gap: 20px;
 }
+
+/* New trip button */
+#new_trip_button {
+    position: fixed;
+    z-index: 5;
+    bottom: 60px;
+    right: 60px;
+    box-shadow: 1px 1px 4px 2px #b3b3b3;
+}

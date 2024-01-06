@@ -2,20 +2,12 @@ import { showMessage } from "./message.js";
 
 if (localStorage.getItem("connected") !== "true" || localStorage.getItem("role") !== "agency") window.location.href = "./index.html";
 
-let quill = new Quill('#quill_container', {
-    modules: {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'align': [] }],
-        ]
-    },
-    placeholder: 'Schedule of the trip...',
-    theme: 'snow',
-});
-
+document.querySelector("#new_trip_button").addEventListener("click", newTripButtonListener);
 document.querySelector("form#new_trip").addEventListener("submit", submitNewTrip);
+
+function newTripButtonListener() {
+    document.querySelector("#new_trip_window").style.visibility = "visible";
+}
 
 function submitNewTrip(e) {
     e.preventDefault();
@@ -47,3 +39,16 @@ function submitNewTrip(e) {
         showMessage("An error occured while creating the new trip", "error");
     }
 }
+
+let quill = new Quill('#quill_container', {
+    modules: {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'align': [] }],
+        ]
+    },
+    placeholder: 'Schedule of the trip...',
+    theme: 'snow',
+});
