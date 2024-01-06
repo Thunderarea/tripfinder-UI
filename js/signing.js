@@ -4,10 +4,18 @@ document.querySelector("input[type='submit']").addEventListener("click", (e) => 
     e.preventDefault();
     let username = document.querySelector('input[name="username"]').value;
     let password = document.querySelector('input[name="password"]').value;
-    if (username === "test" && password === "test") {
+    let success = false;
+    if (username === "customer" && password === "test") {
+        localStorage.setItem("role", "customer");
+        success = true;
+    } else if (username === "agency" && password === "test") {
+        localStorage.setItem("role", "agency");
+        success = true;
+    }
+
+    if (success) {
         localStorage.setItem("connected", true);
         localStorage.setItem("username", username);
-        localStorage.setItem("role", "customer");
         window.location.href = "./index.html";
     }
 });
