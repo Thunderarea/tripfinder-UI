@@ -6,6 +6,7 @@ import { formatTitleMessage } from "./util.js";
 
   initializeFilters();
   document.querySelector("#apply_button").addEventListener("click", applyListener);
+  applyListener();
 
 })();
 
@@ -33,6 +34,7 @@ async function applyListener() {
   if (response && response.ok) {
     let title = formatTitleMessage("trip", response.data.length);
     document.querySelector("#page_subtitle").textContent = title;
+    // Delete previous contents from the list
     document.querySelector("#trips_list").innerHTML = "";
     createTripsList(document.querySelector("#trips_list"), response.data);
   }
@@ -55,8 +57,6 @@ function getFilterValues() {
 
   return data;
 }
-
-applyListener();
 
 function getOption(name) {
   let html = `<option value="${name}" title="${name}">${name.substring(0, 24)}</option>`;

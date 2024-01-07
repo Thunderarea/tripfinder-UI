@@ -201,18 +201,6 @@ iconify-icon {
   color: var(--typo-accent-color);
 }
 
-#user_button {
-  display: none;
-}
-
-body[data-connected="true"] #user_button {
-  display: block;
-}
-
-body[data-connected="true"] #authenticate_buttons {
-  display: none;
-}
-
 /* Overlay window */
 .overlay_window {
   width: 100vw;

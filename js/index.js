@@ -1,11 +1,11 @@
 (function adjustUI() {
   let html = "";
   let connected = localStorage.getItem("connected") === "true";
-  document.body.dataset.connected = connected;
+  // Display different buttons in the header if the user is connected or not 
   if (connected) {
     let username = localStorage.getItem("username");
     let role = localStorage.getItem("role");
-    document.body.dataset.role = role;
+    // Adjust the user's dropdown mennu based on the role
     html = `
     <div id="user_button" class="dropdown">
         <button id="user" class="dropbtn">
@@ -36,7 +36,9 @@
   document.querySelector("header").appendChild(el);
 
   if (connected) {
+    // Event listener for the logout button
     document.querySelector("#logout").addEventListener("click", () => {
+      // Actions during logout
       localStorage.removeItem("connected");
       localStorage.removeItem("role");
       localStorage.removeItem("username");
