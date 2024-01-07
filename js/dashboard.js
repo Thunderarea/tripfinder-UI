@@ -26,15 +26,15 @@ async function submitNewTrip(e) {
         let startDate = new Date(formData.get("start_date")).getTime();
         let endDate = new Date(formData.get("end_date")).getTime();
         let maxParticipants = formData.get("max_participants");
-        let departurePoint = formData.get("departure");
+        let departureArea = formData.get("departure");
         let destination = formData.get("destination");
         let tripSchedule = quill.root.innerHTML;
 
         let errorMessages = [];
-        if (startDate >= endDate) {
+        if (startDate > endDate) {
             errorMessages.push("End date should be after start date");
         }
-        if (new Date().getTime() > startDate) {
+        if (new Date(new Date().toLocaleDateString()).getTime() > startDate) {
             errorMessages.push("Start date cannot be before today");
         }
         if (quill.getText().trim() === "") {
@@ -47,11 +47,12 @@ async function submitNewTrip(e) {
             let body = {
                 startDate: startDate,
                 endDate: endDate,
-                departurePoint: departurePoint,
+                departureArea: departureArea,
                 destination: destination,
                 tripSchedule: tripSchedule,
                 maxParticipants: maxParticipants,
             };
+            console.log(body);
             let response = await postRequest("trips/", body);
             if (response && response.ok) {
                 console.log(response);

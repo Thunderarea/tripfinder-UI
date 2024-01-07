@@ -55,11 +55,11 @@ function createElement(item, buttonClass, hasButton) {
         <ul class="trip_body">
             <li>
                 <iconify-icon icon="mdi:calendar-month-outline"></iconify-icon>
-                ${new Date(item.startDate).toLocaleString()} - ${new Date(item.endDate).toLocaleString()}
+                ${new Date(item.startDate).toLocaleDateString()} - ${new Date(item.endDate).toLocaleDateString()}
             </li>
             <li>
                 <iconify-icon icon="bx:map"></iconify-icon>
-                ${item.departurePoint}
+                ${item.departureArea}
             </li>
             <li>
                 <iconify-icon icon="mdi:company"></iconify-icon>
@@ -98,8 +98,8 @@ function createMoreInfoModal(item, buttonClass, hasButton) {
           </div>
           <div class="row">
             <iconify-icon icon="bx:map"></iconify-icon>
-            <div class="info_title">in:</div>
-            <div>${item.departurePoint}</div>
+            <div class="info_title">Area:</div>
+            <div>${item.departureArea}</div>
           </div>
           <div class="row">
             <div class="info_title">Max participants:</div>
