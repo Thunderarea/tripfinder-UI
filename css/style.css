@@ -113,6 +113,15 @@ button:hover {
   border-left-width: 0.1px;
 }
 
+.form_group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+
+
 /* Header */
 header {
   display: flex;
@@ -230,6 +239,22 @@ iconify-icon {
   right: 10px;
   top: 10px;
   cursor: pointer;
+}
+
+/* Sign up */
+#user_type_selection {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.user_type_label {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.user_type_radio input[type="radio"]:checked{
+  accent-color: var(--accent-color);
 }
 
 /* Quil editor */

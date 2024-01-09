@@ -17,10 +17,75 @@
           <button class="box colored"><a href="#" class="no_link">Sign up</a></button>
         </div>
 
-        <form action="#">
+        <form id="signup" action="#">
 
-          Fields to fill
-          
+          <!-- User Type Selection -->
+          <div class="form_group">
+            <label class="user_type_label">Select User Type:</label>
+            <div id="user_type_selection">
+              <div class="user_type_radio">
+                <input type="radio" id="customer_radio" name="user_type" value="customer" checked>
+                <label for="customer_radio">Customer</label>
+              </div>
+              <div class="user_type_radio">
+                <input type="radio" id="agency_radio" name="user_type" value="agency">
+                <label for="agency_radio">Agency</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Common Fields -->
+          <div class="form_group">
+            <label for="username">Username:</label>
+            <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="box"
+                    required>
+          </div>
+          <div class="form_group">
+            <label for="password">Password:</label>
+            <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="box"
+                    required>
+          </div>
+          <div class="form_group">
+            <label for="tax_code">Tax Code:</label>
+            <input type="text" id="tax_code" name="tax_code" class="box" required>
+          </div>
+
+          <!-- Agency-Specific Fields -->
+          <div id="agency_fields" style="display:none;">
+            <div class="form_group">
+              <label for="brand_name">Brand Name:</label>
+              <input type="text" id="brand_name" name="brand_name" class="box">
+            </div>
+            <div class="form_group">
+              <label for="owner">Owner:</label>
+              <input type="text" id="owner" name="owner" class="box">
+            </div>
+          </div>
+
+          <!-- Customer-Specific Fields -->
+          <div id="customer_fields">
+            <div class="form_group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" class="box">
+            </div>
+            <div class="form_group">
+              <label for="surname">Surname:</label>
+              <input type="text" id="surname" name="surname" class="box">
+            </div>
+            <div class="form_group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" class="box">
+            </div>
+          </div>
+
           <button type="submit" class="colored wide">Submit</button>
         </form>
       </div>
