@@ -1,35 +1,32 @@
 async function postRequest(endpoint, data) {
-  let result = null;
-  try {
-    const response = await fetch(`http://localhost:8080/api/${endpoint}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    result = await response.json();
-    return {
-      ok: response.ok,
-      data: result
-    };
-  } catch (error) {
-    console.error("Error:", error);
-  }
-  return result;
+  return await request(endpoint, data, "POST");
 }
 
-
 async function getRequest(endpoint, params) {
+  return await request(endpoint, params, "GET");
+}
+
+async function deleteRequest(endpoints, params) {
+  return await request(endpoint, params, "DELETE");
+}
+
+async function request(endpoint, params, method) {
   let result = null;
   try {
-    const response = await fetch(`http://localhost:8080/api/${endpoint}?${new URLSearchParams(params).toString()}`, {
-      method: "GET",
+    let url = `http://localhost:8080/api/${endpoint}`;
+    let requestOptions = {
+      method: method,
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    };
+    if (Object.keys(params).length !== 0 && method !== "POST") {
+      url = url + `?${new URLSearchParams(params).toString()}`;
+    } else if (method === "POST") {
+      requestOptions.body = JSON.stringify(params);
+    }
+
+    const response = await fetch(url, requestOptions);
 
     result = await response.json();
     return {
@@ -45,4 +42,5 @@ async function getRequest(endpoint, params) {
 export {
   postRequest,
   getRequest,
+  deleteRequest,
 };
