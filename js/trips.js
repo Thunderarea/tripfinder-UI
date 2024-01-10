@@ -117,12 +117,12 @@ function createMoreInfoModal(item, buttonClass, hasButton) {
             <div class="row">
               <iconify-icon icon="mdi:calendar-arrow-right"></iconify-icon>
               <div class="info_title">Departure at:</div>
-              <div>${new Date(item.start_date).toLocaleString()}</div>
+              <div>${new Date(item.start_date).toLocaleDateString()}</div>
             </div>
             <div class="row">
               <iconify-icon icon="mdi:calendar-arrow-left"></iconify-icon>
               <div class="info_title">Return at:</div>
-              <div>${new Date(item.end_date).toLocaleString()}</div>
+              <div>${new Date(item.end_date).toLocaleDateString()}</div>
             </div>
           </div>
           <div class="row">
