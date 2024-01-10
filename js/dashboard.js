@@ -1,10 +1,44 @@
 import { showMessage } from "./message.js";
-import { postRequest } from "./api.js";
+import { postRequest, getRequest } from "./api.js";
+import { createAgencyTripsList } from "./trips.js";
+import { formatTitleMessage } from "./util.js";
 
 if (localStorage.getItem("connected") !== "true" || localStorage.getItem("role") !== "agency") window.location.href = "./index.html";
 
-document.querySelector("#new_trip_button").addEventListener("click", newTripButtonListener);
-document.querySelector("form#new_trip").addEventListener("submit", submitNewTrip);
+let id = localStorage.getItem("id");
+
+// Initialize text editor
+let quill = new Quill('#quill_container', {
+    modules: {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ]
+    },
+    placeholder: 'Schedule of the trip...',
+    theme: 'snow',
+});
+
+(function init() {
+
+    document.querySelector("#new_trip_button").addEventListener("click", newTripButtonListener);
+    document.querySelector("form#new_trip").addEventListener("submit", submitNewTrip);
+
+    initializeTripsList();
+})();
+
+async function initializeTripsList() {
+    let response = await getRequest(`trips`, { agencyId: id });
+    if (response && response.ok) {
+        console.log(response);
+        let title = formatTitleMessage("trip", response.data.length);
+        document.querySelector("#list_title").textContent = title;
+        // Delete previous contents from the list
+        document.querySelector("#trips_list").innerHTML = "";
+        createAgencyTripsList(document.querySelector("#trips_list"), response.data);
+    }
+}
 
 function newTripButtonListener() {
     let newTripWindow = document.querySelector("#new_trip_window");
@@ -15,7 +49,7 @@ function newTripButtonListener() {
                 newTripWindow.style.visibility = "hidden";
             }
         });
-    }   
+    }
 }
 
 async function submitNewTrip(e) {
@@ -51,29 +85,19 @@ async function submitNewTrip(e) {
                 destination: destination,
                 tripSchedule: tripSchedule,
                 maxParticipants: maxParticipants,
+                agencyId: id,
             };
             console.log(body);
-            let response = await postRequest("trips/", body);
+            let response = await postRequest("trips", body);
             if (response && response.ok) {
                 console.log(response);
                 e.target.reset();
-                document.querySelector("#new_trip_window").style.visibility = "hidden";
                 showMessage("Successful creation of trip", "success");
+                initializeTripsList();
+                document.querySelector("#new_trip_window").style.visibility = "hidden";
             }
         }
     } catch (error) {
         showMessage("An error occured while creating the new trip", "error");
     }
 }
-
-let quill = new Quill('#quill_container', {
-    modules: {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        ]
-    },
-    placeholder: 'Schedule of the trip...',
-    theme: 'snow',
-});

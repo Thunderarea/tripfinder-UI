@@ -22,8 +22,9 @@ async function login(e) {
 
         if (res.data.status === "SUCCESS" ) {
             localStorage.setItem("connected", true);
-            localStorage.setItem("username", res.data.body.username);
-            localStorage.setItem("role", res.data.body.user_type);
+            localStorage.setItem("username", res.data.user.username);
+            localStorage.setItem("role", res.data.user.user_type);
+            localStorage.setItem("id", res.data.id);
             // After a successful connection, redirect the user to the home page
             window.location.href = "./index.html";
         } else {

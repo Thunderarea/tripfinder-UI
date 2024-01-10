@@ -23,7 +23,12 @@
       </header>
     </div>
     <main class="content">
-      <h2>Dashboard</h2>      
+      <h2>Dashboard</h2>
+      <button type="button" id="new_trip_button" class="colored"><iconify-icon icon="gg:add"></iconify-icon>New trip</button>
+      <div id="trips">
+        <h4 id="list_title">0 reservations</h4>
+        <ul id="trips_list"></ul>
+      </div>
     </main>
 
     <div class="overlay_window" id="new_trip_window">
@@ -61,8 +66,6 @@
         </form>
       </div>
     </div>
-
-    <button type="button" id="new_trip_button" class="colored"><iconify-icon icon="gg:add"></iconify-icon>New trip</button>
 
     <script type="module" src="./js/index.js"></script>
     <script type="module" src="./js/dashboard.js"></script>

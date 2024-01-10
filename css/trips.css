@@ -13,6 +13,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 .trip {
@@ -73,45 +74,52 @@
 }
 
 /* Button content */
-button.reservation::before {
+button[data-action="reservation"]::before {
   content: url("https://api.iconify.design/mdi/book-outline.svg?color=white");
   line-height: 0;
 }
 
-button.reservation::after {
+button[data-action="reservation"]::after {
   content: "Reservation";
 }
 
-button.reserved {
+button[data-action="reserved"] {
   background-color: green;
 }
 
-button.reserved::before {
+button[data-action="reserved"]::before {
   content: url("https://api.iconify.design/octicon/issue-closed-16.svg?color=white");
   line-height: 0;
 }
 
-button.reserved::after {
+button[data-action="reserved"]::after {
   content: "Reserved";
 }
 
-button.reserved:hover,
-button.cancel {
+button[data-action="reserved"]:hover,
+button[data-action="cancel"],
+button[data-action="delete"] {
   background-color: red;
 }
 
-button.reserved:hover::before,
-button.cancel::before {
+button[data-action="reserved"]:hover::before,
+button[data-action="cancel"]::before,
+button[data-action="delete"]::before {
   content: url("https://api.iconify.design/material-symbols/cancel-outline.svg?color=white");
   line-height: 0;
 }
 
-button.reserved:hover::after,
-button.cancel::after {
+button[data-action="reserved"]:hover::after,
+button[data-action="cancel"]::after {
   content: "Cancel";
 }
 
-button.cancel:hover {
+button[data-action="delete"]::after {
+  content: "Delete";
+}
+
+button[data-action="cancel"]:hover,
+button[data-action="delete"]:hover {
   background-color: rgb(195, 0, 0);
 }
 

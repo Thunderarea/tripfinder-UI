@@ -35,8 +35,17 @@ async function initializeFilters() {
 }
 
 async function applyListener() {
+  let isConnected = localStorage.getItem("connected") === "true";
+  let role = localStorage.getItem("role");
+  let id = localStorage.getItem("id");
+
   let data = getFilterValues();
-  let response = await getRequest("trips/", data);
+
+  if (isConnected && role && role === "customer") {
+    data.customerId = id;
+  }
+
+  let response = await getRequest("trips", data);
   console.log(response);
   if (response && response.ok) {
     let title = formatTitleMessage("trip", response.data.length);

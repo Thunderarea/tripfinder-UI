@@ -1,26 +1,63 @@
-function createTripsList(container, list,) {
-  let isConnected = localStorage.getItem("connected") === "true";
-  let role = localStorage.getItem("role");
+import { postRequest } from "./api.js";
+import { showMessage } from "./message.js";
 
-  let hasButton = isConnected;
-  let buttonClass = "reservation"; // reservation. reserved
-  let element;
+let isConnected = localStorage.getItem("connected") === "true";
+let role = localStorage.getItem("role");
+let id = localStorage.getItem("id");
+
+function createTripsList(container, list,) {
+  let hasButton;
+  let buttonAction; // reservation. reserved. delete
   list.forEach(item => {
+    hasButton = isConnected;
+    buttonAction = "reservation";
     // If there is no user connected or the user is agency, no reservation button is added
-    if (isConnected && role && role === "agency") hasButton = false;
-    element = createElement(item, buttonClass, hasButton);
-    container.appendChild(element);
-    // Click listener for the more information button
-    element.querySelector(".more_button").addEventListener("click", () => {
-      moreInfoModal(item, buttonClass, hasButton);
-    });
-    if (hasButton) {
-      // If it has button, add its click listener
-      element.querySelector(".trip_button").addEventListener("click", () => {
-        tripsButtonListener(item, element);
-      });
+    if (isConnected && role) {
+      if (role === "agency") {
+        if (id == item.agency.id) buttonAction = "delete";
+        else hasButton = false;
+      } else if (role === "customer" && item.is_reserved) buttonAction = "reserved";
     }
+    initializeElement(item, buttonAction, hasButton, container);
   });
+}
+
+function createReservationsList(container, list) {
+  if (isConnected) {
+    let hasButton = true;
+    let buttonAction = "reserved";
+    list.forEach(item => {
+      item.trip.reservation_id = item.reservation_id;
+      item = item.trip;
+      initializeElement(item, buttonAction, hasButton, container);
+    });
+  }
+  // reserved
+}
+
+function createAgencyTripsList(container, list) {
+  if (isConnected) {
+    let hasButton = true;
+    let buttonAction = "delete";
+    list.forEach(item => {
+      initializeElement(item, buttonAction, hasButton, container);
+    });
+  }
+}
+
+function initializeElement(item, buttonAction, hasButton, container) {
+  let element = createElement(item, buttonAction, hasButton);
+  container.appendChild(element);
+  // Click listener for the more information button
+  element.querySelector(".more_button").addEventListener("click", () => {
+    moreInfoModal(item);
+  });
+  if (hasButton) {
+    // If it has button, add its click listener
+    element.querySelector(".trip_button").addEventListener("click", function () {
+      tripsButtonListener(item, element, this);
+    });
+  }
 }
 
 /**
@@ -28,12 +65,36 @@ function createTripsList(container, list,) {
  * @param {Object} item - the trip object with all the trip information
  * @param {HTMLElement} tripEl - the trip element in the DOM
  */
-function tripsButtonListener(item, tripEl) {
+function tripsButtonListener(item, tripEl, button) {
   console.log(item);
+  if (role === "customer") {
+    if (item.is_reserved) {
+      console.log("cancel reservation");
+    } else {
+      console.log("make reservation");
+      if (makeReservation(item.id, button)) item.is_reserved = true;
+    }
+  } else if (role === "agency") {
+    console.log("delete trip");
+  }
 }
 
-function moreInfoModal(item, buttonClass, hasButton) {
-  let moreInfoEl = createMoreInfoModal(item, buttonClass, hasButton);
+async function makeReservation(tripId, button) {
+  let response = await postRequest(`create-reservation`, {
+    customerId: id,
+    tripId: tripId
+  });
+  if (response && response.ok) {
+    showMessage("Successful reservation", "success");
+    button.dataset.action = "reserved";
+    return true;
+  }
+  showMessage("Error while doing the reservation", "error");
+  return false;
+}
+
+function moreInfoModal(item) {
+  let moreInfoEl = createMoreInfoModal(item);
   document.body.appendChild(moreInfoEl);
   // Listener for closing the modal
   moreInfoEl.addEventListener("click", (e) => {
@@ -43,27 +104,7 @@ function moreInfoModal(item, buttonClass, hasButton) {
   });
 }
 
-function createReservationsList(container, list) {
-  let isConnected = localStorage.getItem("connected") === "true";
-  if (isConnected) {
-    list.forEach(item => {
-      container.appendChild(createElement(item, "reserved", isConnected));
-    });
-  }
-  // reserved
-}
-
-function createAgencyTripsList(container, list) {
-  let isConnected = localStorage.getItem("connected") === "true";
-  if (isConnected) {
-    list.forEach(item => {
-      container.appendChild(createElement(item, "cancel", isConnected));
-    });
-  }
-  // cancel
-}
-
-function createElement(item, buttonClass, hasButton) {
+function createElement(item, buttonAction, hasButton) {
   // date.toLocaleString(); // 5/12/2020, 6:50:21 PM
   // date.toLocaleDateString(); // 5/12/2020
   // date.toLocaleTimeString(); // 6:50:21 PM
@@ -92,13 +133,13 @@ function createElement(item, buttonClass, hasButton) {
         </ul>
         <div class="trip_footer">
             <div class="more_button">more information >></div>
-            ${hasButton ? `<button class="colored trip_button ${buttonClass}"></button>` : ""}
+            ${hasButton ? `<button class="colored trip_button" data-action="${buttonAction}"></button>` : ""}
         </div>
     </li>`;
   return new DOMParser().parseFromString(html, "text/html").body.firstElementChild;
 }
 
-function createMoreInfoModal(item, buttonClass, hasButton) {
+function createMoreInfoModal(item) {
   let html = `
     <div class="overlay_window" id="more_info_window">
       <iconify-icon icon="mingcute:close-fill" class="close_overlay_button"></iconify-icon>
@@ -139,9 +180,8 @@ function createMoreInfoModal(item, buttonClass, hasButton) {
           <div class="row">
             <iconify-icon icon="mdi:company"></iconify-icon>
             <div class="info_title">This trip is organized by:</div>
-            <div>${"Agency name"}</div>
+            <div>${item.agency.brand_name}</div>
           </div>
-          ${hasButton ? `<button class="colored trip_button ${buttonClass}"></button>` : ""}
         </div>
       </div>
     </div>
