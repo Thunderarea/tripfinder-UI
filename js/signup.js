@@ -1,5 +1,5 @@
 import { showMessage } from "./message.js";
-import { postRequest} from "./api.js";
+import { postRequest } from "./api.js";
 
 const customerRadio = document.getElementById('customer_radio');
 const agencyRadio = document.getElementById('agency_radio');
@@ -86,7 +86,7 @@ function validateForm() {
         result = false;
     }
 
-    if(agencyRadio.checked) {
+    if (agencyRadio.checked) {
 
         if (!ownerPatten.test(ownerInput.value)) {
             showMessage('Owner name cannot contain symbols or numbers', "error");
@@ -95,7 +95,7 @@ function validateForm() {
 
     }
 
-    if(customerRadio.checked) {
+    if (customerRadio.checked) {
         if (!namePattern.test(nameInput.value)) {
             showMessage('Names can only contain letters', "error");
             result = false;
@@ -118,11 +118,11 @@ function validateForm() {
     return result; // Allow form submission
 }
 
-async function signUp(e){
+async function signUp(e) {
     e.preventDefault()
-    if(validateForm()) {
+    if (validateForm()) {
 
-        if(agencyRadio.checked){
+        if (agencyRadio.checked) {
             let request = {
                 username: usernameInput.value,
                 password: passwordInput.value,
@@ -135,12 +135,8 @@ async function signUp(e){
             await postRequest("auth/agency-registration", request).then((res) => {
                 console.log(res)
 
-                if (res.data.status === "SUCCESS" ) {
-                    localStorage.setItem("connected", true);
-                    localStorage.setItem("username", res.data.body.username);
-                    localStorage.setItem("role", res.data.body.user_type);
-                    // After a successful connection, redirect the user to the home page
-                    window.location.href = "./index.html";
+                if (res.data.status === "SUCCESS") {
+                    successfulSignup(res.data.body.username, res.data.body.user_type);
                 } else {
                     document.querySelector("form#signup").reset();
                     showMessage(res.data.message, "error");
@@ -161,12 +157,8 @@ async function signUp(e){
             await postRequest("auth/customer-registration", request).then((res) => {
                 console.log(res)
 
-                if (res.data.status === "SUCCESS" ) {
-                    localStorage.setItem("connected", true);
-                    localStorage.setItem("username", res.data.body.username);
-                    localStorage.setItem("role", res.data.body.user_type);
-                    // After a successful connection, redirect the user to the home page
-                    window.location.href = "./index.html";
+                if (res.data.status === "SUCCESS") {
+                    successfulSignup(res.data.body.username, res.data.body.user_type);
                 } else {
                     document.querySelector("form#signup").reset();
                     showMessage(res.data.message, "error");
@@ -177,6 +169,14 @@ async function signUp(e){
 
 
     }
+}
+
+function successfulSignup(username, role) {
+    localStorage.setItem("connected", true);
+    localStorage.setItem("username", username);
+    localStorage.setItem("role", role);
+    // After a successful connection, redirect the user to the home page
+    window.location.href = "./index.html";
 }
 
 // Initial setup
