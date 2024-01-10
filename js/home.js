@@ -15,14 +15,21 @@ async function initializeFilters() {
   if (response && response.ok) {
     let destinationsEl = document.querySelector("#destination");
     response.data.forEach(dst => {
-      destinationsEl.appendChild(getOption(dst));
+      destinationsEl.appendChild(getOption(dst, dst));
     });
   }
   response = await getRequest("trips/departure-areas", {});
   if (response && response.ok) {
     let departuresEl = document.querySelector("#departure");
     response.data.forEach(dpt => {
-      departuresEl.appendChild(getOption(dpt));
+      departuresEl.appendChild(getOption(dpt, dpt));
+    });
+  }
+  response = await getRequest("agencies", {});
+  if (response && response.ok) {
+    let agenciesEl = document.querySelector("#agency");
+    response.data.forEach(agnc => {
+      agenciesEl.appendChild(getOption(agnc.brand_name, agnc.id));
     });
   }
 }
@@ -52,13 +59,13 @@ function getFilterValues() {
   if (value !== "") data.destination = value;
   value = document.querySelector("#filters #departure").value;
   if (value !== "") data.departureArea = value;
-  // value = document.querySelector("#filters #agency").value;
-  // if (value !== "") data.agency = value;
+  value = document.querySelector("#filters #agency").value;
+  if (value !== "") data.agencyId = value;
 
   return data;
 }
 
-function getOption(name) {
-  let html = `<option value="${name}" title="${name}">${name.substring(0, 24)}</option>`;
+function getOption(name, value) {
+  let html = `<option value="${value}" title="${name}">${name.substring(0, 24)}</option>`;
   return new DOMParser().parseFromString(html, "text/html").body.firstElementChild;
 }

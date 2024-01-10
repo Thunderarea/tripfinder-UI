@@ -79,15 +79,15 @@ function createElement(item, buttonClass, hasButton) {
         <ul class="trip_body">
             <li>
                 <iconify-icon icon="mdi:calendar-month-outline"></iconify-icon>
-                ${new Date(item.startDate).toLocaleDateString()} - ${new Date(item.endDate).toLocaleDateString()}
+                ${new Date(item.start_date).toLocaleDateString()} - ${new Date(item.end_date).toLocaleDateString()}
             </li>
             <li>
                 <iconify-icon icon="bx:map"></iconify-icon>
-                ${item.departureArea}
+                ${item.departure_area}
             </li>
             <li>
                 <iconify-icon icon="mdi:company"></iconify-icon>
-                ${"Agency name"}
+                ${item.agency.brand_name}
             </li>
         </ul>
         <div class="trip_footer">
@@ -111,29 +111,29 @@ function createMoreInfoModal(item, buttonClass, hasButton) {
           <div class="row">
             <iconify-icon icon="bx:map"></iconify-icon>
             <div class="info_title">Area:</div>
-            <div>${item.departureArea}</div>
+            <div>${item.departure_area}</div>
           </div>
           <div id="more_info_dates">
             <div class="row">
               <iconify-icon icon="mdi:calendar-arrow-right"></iconify-icon>
               <div class="info_title">Departure at:</div>
-              <div>${new Date(item.startDate).toLocaleString()}</div>
+              <div>${new Date(item.start_date).toLocaleString()}</div>
             </div>
             <div class="row">
               <iconify-icon icon="mdi:calendar-arrow-left"></iconify-icon>
               <div class="info_title">Return at:</div>
-              <div>${new Date(item.endDate).toLocaleString()}</div>
+              <div>${new Date(item.end_date).toLocaleString()}</div>
             </div>
           </div>
           <div class="row">
             <div class="info_title">Max participants:</div>
-            <div>${item.maxParticipants}</div>
+            <div>${item.max_participants}</div>
           </div>
           <div class="row">
             <iconify-icon icon="ri:calendar-schedule-line"></iconify-icon>
             <div class="info_title">Trip schedule:</div>
           </div>
-          <div id="trip_schedule_content" class="box">${item.tripSchedule}</div>
+          <div id="trip_schedule_content" class="box">${item.trip_schedule}</div>
         </div>
         <div class="trip_footer">
           <div class="row">

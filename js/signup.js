@@ -7,8 +7,6 @@ const agencyFields = document.getElementById('agency_fields');
 const customerFields = document.getElementById('customer_fields');
 const signupForm = document.getElementById('signup');
 
-
-
 let usernamePattern = /^[a-zA-Z0-9]+$/;
 let passwordPattern = /^[a-zA-Z0-9!@#$%^&*()-_=+\[\]{}|;:'",.<>?/`~]+$/;
 let taxCodePattern = /^[0-9]{9}$/;
@@ -17,19 +15,12 @@ let emailPattern = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\
 let ownerPatten = /^[a-zA-Z\s'-]+$/;
 
 let passwordInput = document.getElementById('password');
-
 let usernameInput = document.getElementById('username');
-
 let taxCodeInput = document.getElementById('tax_code');
-
 let ownerInput = document.getElementById('owner');
-
 let brandNameInput = document.getElementById('brand_name');
-
 let nameInput = document.getElementById('name');
-
 let surnameInput = document.getElementById('surname');
-
 let emailInput = document.getElementById('email');
 
 function handleUserTypeChange() {
