@@ -6,7 +6,7 @@ if (localStorage.getItem("connected") !== "true" || localStorage.getItem("role")
 
 let id = localStorage.getItem("id");
 
-let response = await getRequest(`customer-reservations/${id}`, {});
+let response = await getRequest(`reservation/customer/${id}`, {});
 if (response && response.ok) {
     console.log(response);
     let title = formatTitleMessage("reservation", response.data.reservations.length);
