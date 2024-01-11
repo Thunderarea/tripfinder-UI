@@ -6,7 +6,7 @@ async function getRequest(endpoint, params) {
   return await request(endpoint, params, "GET");
 }
 
-async function deleteRequest(endpoints, params) {
+async function deleteRequest(endpoint, params) {
   return await request(endpoint, params, "DELETE");
 }
 

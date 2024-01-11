@@ -1,4 +1,4 @@
-import { postRequest } from "./api.js";
+import { deleteRequest, postRequest } from "./api.js";
 import { showMessage } from "./message.js";
 
 let isConnected = localStorage.getItem("connected") === "true";
@@ -76,7 +76,17 @@ function tripsButtonListener(item, tripEl, button) {
     }
   } else if (role === "agency") {
     console.log("delete trip");
+    deleteTrip(item.id, tripEl);
   }
+}
+
+async function deleteTrip(tripId, tripEl) {
+  let response = await deleteRequest(`trips/${tripId}`, {});
+  if (response && response.ok) {
+    showMessage("Successful deletion of the trip", "success");
+    tripEl.remove();
+  }
+  showMessage("Error while deleting the trip", "error");
 }
 
 async function makeReservation(tripId, button) {
