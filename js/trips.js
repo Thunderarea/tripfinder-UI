@@ -115,10 +115,10 @@ async function makeReservation(tripId, button) {
     button.dataset.action = "reserved";
     // To delete its click listener
     button.replaceWith(button.cloneNode(true));
-    return response.data;
+  } else {
+    if (response && response.data && response.data.message) showMessage(response.data.message, "error");
+    else showMessage("Error while doing the reservation", "error");
   }
-  showMessage("Error while doing the reservation", "error");
-  return false;
 }
 
 function moreInfoModal(item) {
