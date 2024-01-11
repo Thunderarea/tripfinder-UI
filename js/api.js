@@ -28,7 +28,9 @@ async function request(endpoint, params, method) {
 
     const response = await fetch(url, requestOptions);
 
-    result = await response.json();
+    if (method !== "DELETE") result = await response.json();
+    else result = [];
+    
     return {
       ok: response.ok,
       data: result
