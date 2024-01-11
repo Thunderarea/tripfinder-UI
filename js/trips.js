@@ -14,9 +14,11 @@ function createTripsList(container, list,) {
     // If there is no user connected or the user is agency, no reservation button is added
     if (isConnected && role) {
       if (role === "agency") {
-        if (id == item.agency.id) buttonAction = "delete";
-        else hasButton = false;
-      } else if (role === "customer" && item.is_reserved) buttonAction = "reserved";
+        // Uncomment this code if you want the agencies to be able to delete trips from the home page
+        // if (id == item.agency.id) buttonAction = "delete";
+        // else hasButton = false;
+        hasButton = false;
+      } else if (role === "customer" && item.reservation_id) buttonAction = "reserved";
     }
     initializeElement(item, buttonAction, hasButton, container);
   });
@@ -25,14 +27,13 @@ function createTripsList(container, list,) {
 function createReservationsList(container, list) {
   if (isConnected) {
     let hasButton = true;
-    let buttonAction = "reserved";
+    let buttonAction = "cancel";
     list.forEach(item => {
       item.trip.reservation_id = item.reservation_id;
       item = item.trip;
       initializeElement(item, buttonAction, hasButton, container);
     });
   }
-  // reserved
 }
 
 function createAgencyTripsList(container, list) {
@@ -52,10 +53,10 @@ function initializeElement(item, buttonAction, hasButton, container) {
   element.querySelector(".more_button").addEventListener("click", () => {
     moreInfoModal(item);
   });
-  if (hasButton) {
+  if (hasButton && buttonAction !== "reserved") {
     // If it has button, add its click listener
     element.querySelector(".trip_button").addEventListener("click", function () {
-      tripsButtonListener(item, element, this);
+      tripsButtonListener(item, element, buttonAction, this);
     });
   }
 }
@@ -65,19 +66,35 @@ function initializeElement(item, buttonAction, hasButton, container) {
  * @param {Object} item - the trip object with all the trip information
  * @param {HTMLElement} tripEl - the trip element in the DOM
  */
-function tripsButtonListener(item, tripEl, button) {
+async function tripsButtonListener(item, tripEl, buttonAction, button) {
   console.log(item);
-  if (role === "customer") {
-    if (item.is_reserved) {
-      console.log("cancel reservation");
-    } else {
+  switch (buttonAction) {
+    case "reservation": {
       console.log("make reservation");
-      if (makeReservation(item.id, button)) item.is_reserved = true;
+      makeReservation(item.id, button);
+      break;
     }
-  } else if (role === "agency") {
-    console.log("delete trip");
-    deleteTrip(item.id, tripEl);
+    case "cancel": {
+      console.log("cancel reservation");
+      cancelReservation(item.reservation_id, tripEl);
+      break;
+    }
+    case "delete": {
+      console.log("delete trip");
+      deleteTrip(item.id, tripEl);
+      break;
+    }
+    default:
+      break;
   }
+}
+
+async function cancelReservation(reservationId, tripEl) {
+  let response = await deleteRequest(`reservation/cancel/${reservationId}`, {});
+  if (response.ok) {
+    showMessage("Successful reservation cancelation", "success");
+    tripEl.remove();
+  } else showMessage("Error while canceling the reservation", "error");
 }
 
 async function deleteTrip(tripId, tripEl) {
@@ -96,7 +113,9 @@ async function makeReservation(tripId, button) {
   if (response && response.ok) {
     showMessage("Successful reservation", "success");
     button.dataset.action = "reserved";
-    return true;
+    // To delete its click listener
+    button.replaceWith(button.cloneNode(true));
+    return response.data;
   }
   showMessage("Error while doing the reservation", "error");
   return false;
@@ -113,6 +132,8 @@ function moreInfoModal(item) {
   });
 }
 
+// <iconify-icon icon="bi:people-fill"></iconify-icon>${"3"} available spots
+
 function createElement(item, buttonAction, hasButton) {
   // date.toLocaleString(); // 5/12/2020, 6:50:21 PM
   // date.toLocaleDateString(); // 5/12/2020
@@ -122,8 +143,9 @@ function createElement(item, buttonAction, hasButton) {
     <li class="trip box" id="${item.id}">
         <div class="trip_header">
             <div class="trip_title">${item.destination}</div>
-            <div class="availability">
-                <iconify-icon icon="bi:people-fill"></iconify-icon>${"3"} available spots
+            <div class="departure_area">
+              <iconify-icon icon="fluent:location-28-filled"></iconify-icon>
+              ${item.departure_area}
             </div>
         </div>
         <ul class="trip_body">
@@ -132,8 +154,8 @@ function createElement(item, buttonAction, hasButton) {
                 ${new Date(item.start_date).toLocaleDateString()} - ${new Date(item.end_date).toLocaleDateString()}
             </li>
             <li>
-                <iconify-icon icon="bx:map"></iconify-icon>
-                ${item.departure_area}
+                <iconify-icon icon="uil:users-alt"></iconify-icon>
+                ${item.max_participants}
             </li>
             <li>
                 <iconify-icon icon="mdi:company"></iconify-icon>
@@ -155,14 +177,9 @@ function createMoreInfoModal(item) {
       <div class="overlay_content content box">
         <div class="trip_header">
           <h2>Trip to ${item.destination}</h2>
-          <div class="row"><iconify-icon icon="bi:people-fill"></iconify-icon>3 available spots</div>
+          <div class="row"><iconify-icon icon="fluent:location-28-filled"></iconify-icon>${item.departure_area}</div>
         </div>
         <div class="trip_body">
-          <div class="row">
-            <iconify-icon icon="bx:map"></iconify-icon>
-            <div class="info_title">Area:</div>
-            <div>${item.departure_area}</div>
-          </div>
           <div id="more_info_dates">
             <div class="row">
               <iconify-icon icon="mdi:calendar-arrow-right"></iconify-icon>
@@ -176,6 +193,7 @@ function createMoreInfoModal(item) {
             </div>
           </div>
           <div class="row">
+            <iconify-icon icon="uil:users-alt"></iconify-icon>
             <div class="info_title">Max participants:</div>
             <div>${item.max_participants}</div>
           </div>

@@ -30,13 +30,13 @@
   align-items: center;
 }
 
-.trip .availability,
+.trip .departure_area,
 .trip .trip_body li {
   display: flex;
   align-items: center;
 }
 
-.trip .availability iconify-icon,
+.trip .departure_area iconify-icon,
 .trip_body li iconify-icon {
   margin-right: 5px;
 }
@@ -85,6 +85,7 @@ button[data-action="reservation"]::after {
 
 button[data-action="reserved"] {
   background-color: green;
+  pointer-events: none;
 }
 
 button[data-action="reserved"]::before {
@@ -96,20 +97,17 @@ button[data-action="reserved"]::after {
   content: "Reserved";
 }
 
-button[data-action="reserved"]:hover,
 button[data-action="cancel"],
 button[data-action="delete"] {
   background-color: red;
 }
 
-button[data-action="reserved"]:hover::before,
 button[data-action="cancel"]::before,
 button[data-action="delete"]::before {
   content: url("https://api.iconify.design/material-symbols/cancel-outline.svg?color=white");
   line-height: 0;
 }
 
-button[data-action="reserved"]:hover::after,
 button[data-action="cancel"]::after {
   content: "Cancel";
 }
