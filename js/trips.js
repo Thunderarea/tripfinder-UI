@@ -82,11 +82,10 @@ function tripsButtonListener(item, tripEl, button) {
 
 async function deleteTrip(tripId, tripEl) {
   let response = await deleteRequest(`trips/${tripId}`, {});
-  if (response && response.ok) {
+  if (response.ok) {
     showMessage("Successful deletion of the trip", "success");
     tripEl.remove();
-  }
-  showMessage("Error while deleting the trip", "error");
+  } else showMessage("Error while deleting the trip", "error");
 }
 
 async function makeReservation(tripId, button) {
