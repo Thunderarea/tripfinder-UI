@@ -80,7 +80,7 @@ function tripsButtonListener(item, tripEl, button) {
 }
 
 async function makeReservation(tripId, button) {
-  let response = await postRequest(`create-reservation`, {
+  let response = await postRequest(`reservation/create`, {
     customerId: id,
     tripId: tripId
   });
