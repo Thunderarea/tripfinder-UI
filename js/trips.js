@@ -128,7 +128,6 @@ async function moreInfoModal(item) {
     let response = await getRequest(`reservation/trip/${item.id}`,{});
 
     if(response && response.ok){
-      console.log(response)
       let moreInfoEl = createMoreInfoModal(item, response.data.customers);
       document.body.appendChild(moreInfoEl);
       // Listener for closing the modal
@@ -140,7 +139,14 @@ async function moreInfoModal(item) {
     }
   }
   else {
-
+    let moreInfoEl = createMoreInfoModal(item, null);
+    document.body.appendChild(moreInfoEl);
+    // Listener for closing the modal
+    moreInfoEl.addEventListener("click", (e) => {
+      if (e.target.classList.contains("overlay_window") || e.target.classList.contains("close_overlay_button")) {
+        moreInfoEl.remove();
+      }
+    });
   }
 
 
