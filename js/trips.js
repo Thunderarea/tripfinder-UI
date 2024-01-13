@@ -155,7 +155,7 @@ function createElement(item, buttonAction, hasButton) {
             </li>
             <li>
                 <iconify-icon icon="uil:users-alt"></iconify-icon>
-                ${item.max_participants}
+                ${item.reserved_slots}/${item.max_participants}
             </li>
             <li>
                 <iconify-icon icon="mdi:company"></iconify-icon>
@@ -194,8 +194,8 @@ function createMoreInfoModal(item) {
           </div>
           <div class="row">
             <iconify-icon icon="uil:users-alt"></iconify-icon>
-            <div class="info_title">Max participants:</div>
-            <div>${item.max_participants}</div>
+            <div class="info_title">Participants:</div>
+            <div>${item.reserved_slots}/${item.max_participants}</div>
           </div>
           <div class="row">
             <iconify-icon icon="ri:calendar-schedule-line"></iconify-icon>
