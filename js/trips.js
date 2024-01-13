@@ -1,4 +1,4 @@
-import { deleteRequest, postRequest } from "./api.js";
+import {deleteRequest, getRequest, postRequest} from "./api.js";
 import { showMessage } from "./message.js";
 
 let isConnected = localStorage.getItem("connected") === "true";
@@ -121,15 +121,29 @@ async function makeReservation(tripId, button) {
   }
 }
 
-function moreInfoModal(item) {
-  let moreInfoEl = createMoreInfoModal(item);
-  document.body.appendChild(moreInfoEl);
-  // Listener for closing the modal
-  moreInfoEl.addEventListener("click", (e) => {
-    if (e.target.classList.contains("overlay_window") || e.target.classList.contains("close_overlay_button")) {
-      moreInfoEl.remove();
+async function moreInfoModal(item) {
+
+  if(role === "agency"){
+
+    let response = await getRequest(`reservation/trip/${item.id}`,{});
+
+    if(response && response.ok){
+      console.log(response)
+      let moreInfoEl = createMoreInfoModal(item, response.data.customers);
+      document.body.appendChild(moreInfoEl);
+      // Listener for closing the modal
+      moreInfoEl.addEventListener("click", (e) => {
+        if (e.target.classList.contains("overlay_window") || e.target.classList.contains("close_overlay_button")) {
+          moreInfoEl.remove();
+        }
+      });
     }
-  });
+  }
+  else {
+
+  }
+
+
 }
 
 // <iconify-icon icon="bi:people-fill"></iconify-icon>${"3"} available spots
@@ -155,7 +169,7 @@ function createElement(item, buttonAction, hasButton) {
             </li>
             <li>
                 <iconify-icon icon="uil:users-alt"></iconify-icon>
-                ${item.reserved_slots}/${item.max_participants}
+                ${item.current_participants}/${item.max_participants}
             </li>
             <li>
                 <iconify-icon icon="mdi:company"></iconify-icon>
@@ -170,7 +184,18 @@ function createElement(item, buttonAction, hasButton) {
   return new DOMParser().parseFromString(html, "text/html").body.firstElementChild;
 }
 
-function createMoreInfoModal(item) {
+function createMoreInfoModal(item, customers) {
+
+  let customerInfo = '';
+
+  if (customers && Array.isArray(customers)) {
+    // Iterate over each customer in the array
+    for (const customer of customers) {
+      // Display first and last name for each customer
+      customerInfo += `<div class="customer_info">${customer.name} ${customer.surname}</div>`;
+    }
+  }
+
   let html = `
     <div class="overlay_window" id="more_info_window">
       <iconify-icon icon="mingcute:close-fill" class="close_overlay_button"></iconify-icon>
@@ -195,8 +220,13 @@ function createMoreInfoModal(item) {
           <div class="row">
             <iconify-icon icon="uil:users-alt"></iconify-icon>
             <div class="info_title">Participants:</div>
-            <div>${item.reserved_slots}/${item.max_participants}</div>
+            <div>${item.current_participants}/${item.max_participants}</div>
           </div>
+          ${customers? `
+            <div class="box">
+                <div id="customer_info_container">${customerInfo}</div>
+                
+            </div>` : ''}
           <div class="row">
             <iconify-icon icon="ri:calendar-schedule-line"></iconify-icon>
             <div class="info_title">Trip schedule:</div>
