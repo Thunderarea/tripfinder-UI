@@ -1,41 +1,55 @@
+import { getRequest } from "./api.js"
+
 if (localStorage.getItem("connected") !== "true") {
-    window.location.href = "./profile.html";
+    window.location.href = "./index.html";
 }
 
-(async function showAll() {
+let id = localStorage.getItem('id');
+let role = localStorage.getItem('role');
+let bodycontainer = document.getElementById("body_container");
+
+async function getProfile() {
     try {
-        const response = await fetch("http://localhost:8080/api/agencies/${user_id}");
-        const result = await response.json();
-        updateProfile(result);
+        console.log("geia");
+        let response;
+        if (role === "agency") {
+            response = await getRequest(`agencies/${id}`, {});
+
+        }
+        else {
+            response = await getRequest(`customers/${id}`, {});
+        }
+        if (response.ok) {
+            bodycontainer.innerHTML =
+                `<div id="profile" class="box">
+                    <table>
+                        <tr>
+                            <td class="titles"> Username: </td>
+                            <td> <div id="username" class="details">${response.data.username}</div>
+                        </tr>
+                        <tr>
+                            <td class="titles"> Usertype: </td>
+                            <td> <div id="usertype" class="details">${response.data.user_type}</div>
+                        </tr>
+                        <tr>
+                            <td class="titles"> ${role === 'agency' ? "Brand name: " : "Name: "}</td>
+                            <td> <div id=${role === 'agency' ? "brand_name" : "name"} class="details">${role === 'agency' ? response.data.brand_name : response.data.name}</div>
+                        </tr>
+                        <tr>
+                            <td class="titles"> ${role === 'agency' ? "Owner: " : "Surname: "}</td>
+                            <td> <div id=${role === 'agency' ? "owner" : "surname"} class="details">${role === 'agency' ? response.data.owner : response.data.surname}</div>
+                        </tr>
+                        <tr>
+                            <td class="titles"> Tax code: </td>
+                            <td> <div id="taxcode" class="details">${response.data.tax_code}</div>
+                        </tr>
+                    </table>
+                </div>`
+        }
     } catch (error) {
         console.error('Error fetching agency details:', error);
     }
-})();
-
-function updateProfile(result) {
-    let username = localStorage.getItem("username");
-    let userType = localStorage.getItem("user_type");
-    let brandName = localStorage.getItem("brand_name");
-    let owner = localStorage.getItem("owner");
-    let taxCode = localStorage.getItem("tax_code");
-
-    //if (result.usertype == 'agency'){
-    username = result.username;
-    usertype = result.userType;
-    brand_name = result.brandName;
-    owner = result.owner;
-    taxcode = result.taxCode;
-
-    //}
-    //else{
-
-    //}
-
-    $("#username").text(username);
-    $("#usertype").text(usertype);
-    $("#brand_name").text(brand_name);
-    $("#owner").text(owner);
-    $("#taxcode").text(taxcode);
-
 }
+
+getProfile();
 
