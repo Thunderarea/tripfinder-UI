@@ -124,13 +124,10 @@ async function signUp(e) {
             }
 
             await postRequest("auth/agency-registration", request).then((res) => {
-                console.log(res)
-
-                if (res.data.status === "SUCCESS") {
-                    successfulSignup(res.data.body.username, res.data.body.user_type);
+                if (res.ok) {
+                    successfulSignup(res.data.body.username, res.data.body.user_type, res.data.id);
                 } else {
                     document.querySelector("form#signup").reset();
-                    showMessage(res.data.message, "error");
                 }
             })
         }
@@ -146,26 +143,21 @@ async function signUp(e) {
             }
 
             await postRequest("auth/customer-registration", request).then((res) => {
-                console.log(res)
-
                 if (res.data.status === "SUCCESS") {
-                    successfulSignup(res.data.body.username, res.data.body.user_type);
+                    successfulSignup(res.data.body.username, res.data.body.user_type, res.data.id);
                 } else {
                     document.querySelector("form#signup").reset();
-                    showMessage(res.data.message, "error");
                 }
             })
         }
-
-
-
     }
 }
 
-function successfulSignup(username, role) {
+function successfulSignup(username, role, id) {
     localStorage.setItem("connected", true);
     localStorage.setItem("username", username);
     localStorage.setItem("role", role);
+    localStorage.setItem("id", id);
     // After a successful connection, redirect the user to the home page
     window.location.href = "./index.html";
 }

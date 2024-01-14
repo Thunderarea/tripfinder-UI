@@ -29,7 +29,7 @@ let quill = new Quill('#quill_container', {
 })();
 
 async function initializeTripsList() {
-    let response = await getRequest(`trips`, { agencyId: id });
+    let response = await getRequest(`agencies/${id}/trips`, {});
     if (response && response.ok) {
         console.log(response);
         let title = formatTitleMessage("trip", response.data.length);
@@ -79,15 +79,16 @@ async function submitNewTrip(e) {
             errorMessages.forEach(message => showMessage(message, "error"));
         } else {
             let body = {
-                startDate: startDate,
-                endDate: endDate,
-                departureArea: departureArea,
-                destination: destination,
-                tripSchedule: tripSchedule,
-                maxParticipants: maxParticipants,
+                trip: {
+                    startDate: startDate,
+                    endDate: endDate,
+                    departureArea: departureArea,
+                    destination: destination,
+                    tripSchedule: tripSchedule,
+                    maxParticipants: maxParticipants,
+                },
                 agencyId: id,
             };
-            console.log(body);
             let response = await postRequest("trips", body);
             if (response && response.ok) {
                 console.log(response);

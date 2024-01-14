@@ -12,6 +12,7 @@
             ${username} <iconify-icon icon="material-symbols-light:account-circle"></iconify-icon>
         </button>
         <div class="dropdown-content">
+          <button><a href="index.html" class="no_link">Home</a></button>
             ${
               role === "customer"
                 ? '<button class="role1"><a href="reservations.html" class="no_link">Reservations</a></button>'
@@ -42,6 +43,7 @@
       localStorage.removeItem("connected");
       localStorage.removeItem("role");
       localStorage.removeItem("username");
+      localStorage.removeItem("id");
       window.location.reload();
     });
   }

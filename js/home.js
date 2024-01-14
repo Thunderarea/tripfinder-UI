@@ -46,7 +46,6 @@ async function applyListener() {
   }
 
   let response = await getRequest("trips", data);
-  console.log(response);
   if (response && response.ok) {
     let title = formatTitleMessage("trip", response.data.length);
     document.querySelector("#page_subtitle").textContent = title;

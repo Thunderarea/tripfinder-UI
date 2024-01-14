@@ -6,12 +6,12 @@ if (localStorage.getItem("connected") !== "true" || localStorage.getItem("role")
 
 let id = localStorage.getItem("id");
 
-let response = await getRequest(`reservation/customer/${id}`, {});
+let response = await getRequest(`customers/${id}/reservations`, {});
 if (response && response.ok) {
     console.log(response);
-    let title = formatTitleMessage("reservation", response.data.reservations.length);
+    let title = formatTitleMessage("reservation", response.data.length);
     document.querySelector("#list_title").textContent = title;
     // Delete previous contents from the list
     document.querySelector("#trips_list").innerHTML = "";
-    createReservationsList(document.querySelector("#trips_list"), response.data.reservations);
+    createReservationsList(document.querySelector("#trips_list"), response.data);
 }

@@ -1,4 +1,3 @@
-import { showMessage } from "./message.js";
 import {postRequest} from "./api.js";
 
 // If the user is already connected, redirect to the home page
@@ -17,10 +16,7 @@ async function login(e) {
 
 
     await postRequest("auth/authenticate", request).then((res) => {
-
-        console.log(res)
-
-        if (res.data.status === "SUCCESS" ) {
+        if (res.ok) {
             localStorage.setItem("connected", true);
             localStorage.setItem("username", res.data.user.username);
             localStorage.setItem("role", res.data.user.user_type);
@@ -29,9 +25,6 @@ async function login(e) {
             window.location.href = "./index.html";
         } else {
             document.querySelector("form#signin").reset();
-            showMessage(res.data.message, "error");
         }
     })
-
-
 }

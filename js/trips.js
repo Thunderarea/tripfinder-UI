@@ -1,9 +1,9 @@
-import {deleteRequest, getRequest, postRequest} from "./api.js";
+import { deleteRequest, getRequest, postRequest } from "./api.js";
 import { showMessage } from "./message.js";
 
 let isConnected = localStorage.getItem("connected") === "true";
 let role = localStorage.getItem("role");
-let id = localStorage.getItem("id");
+let id = parseInt(localStorage.getItem("id"));
 
 function createTripsList(container, list,) {
   let hasButton;
@@ -18,7 +18,7 @@ function createTripsList(container, list,) {
         // if (id == item.agency.id) buttonAction = "delete";
         // else hasButton = false;
         hasButton = false;
-      } else if (role === "customer" && item.reservation_id) buttonAction = "reserved";
+      } else if (role === "customer" && item.has_reservation) buttonAction = "reserved";
     }
     initializeElement(item, buttonAction, hasButton, container);
   });
@@ -90,11 +90,11 @@ async function tripsButtonListener(item, tripEl, buttonAction, button) {
 }
 
 async function cancelReservation(reservationId, tripEl) {
-  let response = await deleteRequest(`reservation/cancel/${reservationId}`, {});
+  let response = await deleteRequest(`reservations/cancel/${reservationId}`, {});
   if (response.ok) {
     showMessage("Successful reservation cancelation", "success");
     tripEl.remove();
-  } else showMessage("Error while canceling the reservation", "error");
+  }
 }
 
 async function deleteTrip(tripId, tripEl) {
@@ -102,11 +102,11 @@ async function deleteTrip(tripId, tripEl) {
   if (response.ok) {
     showMessage("Successful deletion of the trip", "success");
     tripEl.remove();
-  } else showMessage("Error while deleting the trip", "error");
+  }
 }
 
 async function makeReservation(tripId, button) {
-  let response = await postRequest(`reservation/create`, {
+  let response = await postRequest(`reservations/create`, {
     customerId: id,
     tripId: tripId
   });
@@ -115,44 +115,27 @@ async function makeReservation(tripId, button) {
     button.dataset.action = "reserved";
     // To delete its click listener
     button.replaceWith(button.cloneNode(true));
-  } else {
-    if (response && response.data && response.data.message) showMessage(response.data.message, "error");
-    else showMessage("Error while doing the reservation", "error");
   }
 }
 
 async function moreInfoModal(item) {
+  let customers = null;
+  
+  if (role === "agency" && item.agency.id === id) {
+    console.log("show");
+    let response = await getRequest(`trips/${item.id}/reservations`, {});
 
-  if(role === "agency"){
-
-    let response = await getRequest(`reservation/trip/${item.id}`,{});
-
-    if(response && response.ok){
-      let moreInfoEl = createMoreInfoModal(item, response.data.customers);
-      document.body.appendChild(moreInfoEl);
-      // Listener for closing the modal
-      moreInfoEl.addEventListener("click", (e) => {
-        if (e.target.classList.contains("overlay_window") || e.target.classList.contains("close_overlay_button")) {
-          moreInfoEl.remove();
-        }
-      });
+    if (response && response.ok) customers = response.data;
+  }
+  let moreInfoEl = createMoreInfoModal(item, customers);
+  document.body.appendChild(moreInfoEl);
+  // Listener for closing the modal
+  moreInfoEl.addEventListener("click", (e) => {
+    if (e.target.classList.contains("overlay_window") || e.target.classList.contains("close_overlay_button")) {
+      moreInfoEl.remove();
     }
-  }
-  else {
-    let moreInfoEl = createMoreInfoModal(item, null);
-    document.body.appendChild(moreInfoEl);
-    // Listener for closing the modal
-    moreInfoEl.addEventListener("click", (e) => {
-      if (e.target.classList.contains("overlay_window") || e.target.classList.contains("close_overlay_button")) {
-        moreInfoEl.remove();
-      }
-    });
-  }
-
-
+  });
 }
-
-// <iconify-icon icon="bi:people-fill"></iconify-icon>${"3"} available spots
 
 function createElement(item, buttonAction, hasButton) {
   // date.toLocaleString(); // 5/12/2020, 6:50:21 PM
@@ -175,7 +158,7 @@ function createElement(item, buttonAction, hasButton) {
             </li>
             <li>
                 <iconify-icon icon="uil:users-alt"></iconify-icon>
-                ${item.current_participants}/${item.max_participants}
+                ${item.reservations_number}/${item.max_participants}
             </li>
             <li>
                 <iconify-icon icon="mdi:company"></iconify-icon>
@@ -191,14 +174,13 @@ function createElement(item, buttonAction, hasButton) {
 }
 
 function createMoreInfoModal(item, customers) {
-
+  console.log(customers);
   let customerInfo = '';
-
   if (customers && Array.isArray(customers)) {
     // Iterate over each customer in the array
     for (const customer of customers) {
       // Display first and last name for each customer
-      customerInfo += `<div class="customer_info">${customer.name} ${customer.surname}</div>`;
+      customerInfo += `<li class="customer_info">${customer.name} ${customer.surname}</li>`;
     }
   }
 
@@ -226,11 +208,11 @@ function createMoreInfoModal(item, customers) {
           <div class="row">
             <iconify-icon icon="uil:users-alt"></iconify-icon>
             <div class="info_title">Participants:</div>
-            <div>${item.current_participants}/${item.max_participants}</div>
+            <div>${item.reservations_number}/${item.max_participants}</div>
           </div>
-          ${customers? `
+          ${(customers && customers.length != 0) ? `
             <div class="box">
-                <div id="customer_info_container">${customerInfo}</div>
+                <ul id="customer_info_container">${customerInfo}</ul>
                 
             </div>` : ''}
           <div class="row">

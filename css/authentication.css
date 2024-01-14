@@ -49,3 +49,9 @@ input {
   padding: 0 var(--placeholder-side-padding);
   color: grey;
 }
+
+#back_to_home_button {
+  position: fixed;
+  left: 10px;
+  top: 10px;
+}

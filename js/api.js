@@ -1,3 +1,5 @@
+import { showMessage } from "./message.js";
+
 async function postRequest(endpoint, data) {
   return await request(endpoint, data, "POST");
 }
@@ -29,8 +31,13 @@ async function request(endpoint, params, method) {
     const response = await fetch(url, requestOptions);
 
     if (method !== "DELETE") result = await response.json();
-    else result = [];
+    else result = null;
     
+    if (!response.ok) {
+      if (result && "message" in result) showMessage(result.message, "error");
+      else showMessage("Something went wrong", "error");
+    } 
+
     return {
       ok: response.ok,
       data: result
