@@ -174,16 +174,6 @@ function createElement(item, buttonAction, hasButton) {
 }
 
 function createMoreInfoModal(item, customers) {
-  console.log(customers);
-  let customerInfo = '';
-  if (customers && Array.isArray(customers)) {
-    // Iterate over each customer in the array
-    for (const customer of customers) {
-      // Display first and last name for each customer
-      customerInfo += `<li class="customer_info">${customer.name} ${customer.surname}</li>`;
-    }
-  }
-
   let html = `
     <div class="overlay_window" id="more_info_window">
       <iconify-icon icon="mingcute:close-fill" class="close_overlay_button"></iconify-icon>
@@ -210,10 +200,11 @@ function createMoreInfoModal(item, customers) {
             <div class="info_title">Participants:</div>
             <div>${item.reservations_number}/${item.max_participants}</div>
           </div>
-          ${(customers && customers.length != 0) ? `
+          ${(customers && Array.isArray(customers) && customers.length != 0) ? `
             <div class="box">
-                <ul id="customer_info_container">${customerInfo}</ul>
-                
+                <ul id="customer_info_container">
+                  ${customers.map(customer => `<li class="customer_info">${customer.name} ${customer.surname}</li>`).join("")}
+                </ul>
             </div>` : ''}
           <div class="row">
             <iconify-icon icon="ri:calendar-schedule-line"></iconify-icon>

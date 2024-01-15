@@ -159,6 +159,7 @@ button[data-action="delete"]:hover {
   padding: 10px;
   overflow-y: auto;
   margin: 0;
+  list-style-type: none;
 }
 
 .customer_info {
