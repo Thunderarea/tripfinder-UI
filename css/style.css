@@ -168,7 +168,6 @@ iconify-icon {
 #user {
   display: flex;
   align-items: center;
-  text-transform: capitalize;
 }
 
 #user iconify-icon {
