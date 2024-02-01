@@ -1,5 +1,6 @@
 import { deleteRequest, getRequest, postRequest } from "./api.js";
 import { showMessage } from "./message.js";
+import {formatTitleMessage} from "./util.js";
 
 let isConnected = localStorage.getItem("connected") === "true";
 let role = localStorage.getItem("role");
@@ -72,16 +73,24 @@ async function tripsButtonListener(item, tripEl, buttonAction, button) {
     case "reservation": {
       console.log("make reservation");
       makeReservation(item.id, button);
+      getRemainingReservations(id)
       break;
     }
     case "cancel": {
       console.log("cancel reservation");
-      cancelReservation(item.reservation_id, tripEl);
+      await cancelReservation(item.reservation_id, tripEl).then(
+          () => {getRemainingReservations(id)}
+      );
       break;
     }
     case "delete": {
       console.log("delete trip");
-      deleteTrip(item.id, tripEl);
+      await deleteTrip(item.id, tripEl).then(
+          () => {
+            getRemainingTrips(id)
+          }
+      );
+
       break;
     }
     default:
@@ -102,6 +111,26 @@ async function deleteTrip(tripId, tripEl) {
   if (response.ok) {
     showMessage("Successful deletion of the trip", "success");
     tripEl.remove();
+  }
+}
+
+async function getRemainingTrips(agency_id) {
+  let response = await getRequest(`agencies/${agency_id}/remaining-trips`, {});
+  if (response.ok) {
+    console.log(response.data)
+    let title = formatTitleMessage("trip", response.data)
+    console.log(title)
+    document.querySelector("#list_title").textContent = title;
+  }
+}
+
+async function getRemainingReservations(customer_id) {
+  let response = await getRequest(`customers/${customer_id}/remaining-reservations`, {});
+  if (response.ok) {
+    console.log(response.data)
+    let title = formatTitleMessage("reservation", response.data)
+    console.log(title)
+    document.querySelector("#list_title").textContent = title;
   }
 }
 
