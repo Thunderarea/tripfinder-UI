@@ -159,7 +159,9 @@ function successfulSignup(username, role, id) {
     localStorage.setItem("role", role);
     localStorage.setItem("id", id);
     // After a successful connection, redirect the user to the home page
-    window.location.href = "./index.html";
+    if (role === "agency") {
+        window.location.href = "./dashboard.html";
+    } else window.location.href = "./index.html";
 }
 
 // Initial setup

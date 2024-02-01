@@ -31,7 +31,6 @@ let quill = new Quill('#quill_container', {
 async function initializeTripsList() {
     let response = await getRequest(`agencies/${id}/trips`, {});
     if (response && response.ok) {
-        console.log(response);
         let title = formatTitleMessage("trip", response.data.length);
         document.querySelector("#list_title").textContent = title;
         // Delete previous contents from the list
