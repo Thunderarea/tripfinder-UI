@@ -59,7 +59,6 @@ label {
 }
 
 button {
-  padding: 5px 15px;
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -70,6 +69,19 @@ button {
   gap: 5px;
   align-items: center;
   justify-content: center;
+}
+
+button:not(.link_button) {
+  padding: 5px 15px;
+}
+
+.link_button a {
+  padding: 5px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
 }
 
 button.wide {
@@ -194,9 +206,11 @@ iconify-icon {
 
 .dropdown-content a {
   text-decoration: none;
-  display: block;
   border-radius: var(--border-radius-inner);
-  text-align: left;
+}
+
+.dropdown-content button {
+  width: 100%;
 }
 
 .dropdown:hover .dropdown-content {

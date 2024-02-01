@@ -12,15 +12,15 @@
             ${username} <iconify-icon icon="material-symbols-light:account-circle"></iconify-icon>
         </button>
         <div class="dropdown-content">
-          <button><a href="index.html" class="no_link">Home</a></button>
+          <button class="link_button"><a href="index.html" class="no_link">Home</a></button>
             ${
               role === "customer"
-                ? '<button class="role1"><a href="reservations.html" class="no_link">Reservations</a></button>'
+                ? '<button class="link_button"><a href="reservations.html" class="no_link">Reservations</a></button>'
                 : role === "agency"
-                ? '<button><a href="dashboard.html" class="no_link">Dashboard</a></button>'
+                ? '<button class="link_button"><a href="dashboard.html" class="no_link">Dashboard</a></button>'
                 : ""
             }
-            <button><a href="profile.html" class="no_link">Profile</a></button>
+            <button class="link_button"><a href="profile.html" class="no_link">Profile</a></button>
             <button id="logout"><a href="#" class="no_link">Logout</a></button>
         </div>
     </div>
@@ -28,8 +28,8 @@
   } else {
     html = `
     <div id="authenticate_buttons">
-      <button class="box"><a href="signin.html" class="no_link">Sign in</a></button>
-      <button class="box"><a href="signup.html" class="no_link">Sign up</a></button>
+      <button class="box link_button"><a href="signin.html" class="no_link">Sign in</a></button>
+      <button class="box link_button"><a href="signup.html" class="no_link">Sign up</a></button>
     </div>
     `;
   }
